@@ -64,6 +64,7 @@
      <None Include="Assets\Shaders\ShaderLearn3_1.shader" />
      <None Include="Assets\Shaders\EmptyShader.shader" />
      <None Include="Assets\Shaders\ShaderLearn5_1.shader" />
+     <None Include="Assets\Shaders\shader3.shader" />
      <None Include="Assets\Shaders\NewUnlitShader.shader" />
      <None Include="Assets\Shaders\ShaderLearn6_1.shader" />
  <Reference Include="UnityEngine.UI">
