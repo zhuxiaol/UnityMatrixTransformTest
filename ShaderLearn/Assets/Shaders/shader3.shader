@@ -55,7 +55,7 @@
 			{
 				// sample the texture
 				fixed4 col = tex2D(_MainTex, i.uv)*_Tint;
-				col *= tex2D(_DetailTex, i.uvDetail*10)*2;
+				col *= tex2D(_DetailTex, i.uvDetail*1)*unity_ColorSpaceDouble;
 				// apply fog
 				//UNITY_APPLY_FOG(i.fogCoord, col);
 				return col;
