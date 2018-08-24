@@ -75,7 +75,7 @@ SubShader{
 
 		float3 viewDir = normalize(_WorldSpaceCameraPos - i.worldPos);;
 		float3 albedo = tex2D(_MainTex, i.uv).rgb * _Tint.rgb;
-		albedo *= tex2D(_HeightMap, i.uv);
+		//albedo *= tex2D(_HeightMap, i.uv);
 		float3 color =albedo.rgb;
 		return float4( color,1);
 	}
