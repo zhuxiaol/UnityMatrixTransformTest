@@ -13,7 +13,7 @@ using UnityEngine;
 
 /*
 由于Unity使用左手坐标系统，当沿着正Z方向观察的时候，正旋转将使得轮子按照逆时针进行旋转
-Unity的旋转变换，我们必须首先绕Z轴进行旋转，然后绕Y轴进行旋转，最后绕X轴进行旋转。
+Unity的旋转变换，我们必须首先绕Z轴进行旋转，然后绕X轴进行旋转，最后绕Y轴进行旋转。
  */
 public class RotationTransformation : Transformation {
     public Vector3 rotation;
