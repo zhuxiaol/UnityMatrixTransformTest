@@ -87,22 +87,37 @@ public class TransformationMatrixUtil {
     /// <returns></returns>
     public static Vector3 WToVPosition(Vector3 worldPos)
     {
+
+        Matrix4x4 mat = WToVMatrix();
+        Vector3 viewPos = mat.MultiplyPoint(worldPos);
+        return viewPos;
+    }
+
+    public static Matrix4x4 WToVMatrix()
+    {
         Transform camTrans = Camera.main.transform;
-        Matrix4x4 matrix= MToWMatrix(camTrans.localScale, camTrans.localEulerAngles, camTrans.position);
+        Matrix4x4 matrix = MToWMatrix(camTrans.localScale, camTrans.localEulerAngles, camTrans.position);
         Matrix4x4 inverseMatrix = matrix.inverse;
-        Vector3 viewPos=inverseMatrix.MultiplyPoint(worldPos);
 
         //观察空间是右手坐标系
-        viewPos.z = -viewPos.z;
-        return viewPos;
+        inverseMatrix.SetRow(2, -inverseMatrix.GetRow(2));
+        return inverseMatrix;
     }
 
     /// <summary>
     /// 观察空间到裁剪空间
+    /// 
     /// </summary>
     /// <param name="vPos"></param>
     /// <returns></returns>
     public static Vector4 VToPPosition(Vector3 vPos)
+    {
+
+        Matrix4x4 matrix = VToPMatrix();
+        Vector4 p = matrix*new Vector4( vPos.x,vPos.y,vPos.z,1);
+        return p;
+    }
+    public static Matrix4x4 VToPMatrix()
     {
         Camera cam = Camera.main;
         float near = cam.nearClipPlane;
@@ -110,13 +125,12 @@ public class TransformationMatrixUtil {
         float fov = cam.fieldOfView;
         float aspect = cam.aspect;
         Matrix4x4 matrix = VToPMatrix(fov, near, far, aspect);
-        Vector4 p = matrix*new Vector4( vPos.x,vPos.y,vPos.z,1);
-        return p;
+        return matrix;
     }
-
     /// <summary>
+    /// 透视裁剪矩阵
     /// 透视投影矩阵
-    /// 参考（http://wiki.jikexueyuan.com/project/modern-opengl-tutorial/tutorial12.html）
+    /// 参考（https://blog.csdn.net/cbbbc/article/details/51296804）
     /// View to Projection
     /// 观察空间到裁剪空间
     /// </summary>
@@ -132,8 +146,8 @@ public class TransformationMatrixUtil {
         Matrix4x4 matrix = new Matrix4x4();
         matrix.SetRow(0, new Vector4(1 / (aspect * tan), 0, 0, 0));
         matrix.SetRow(1, new Vector4(0,1 / (tan), 0, 0));
-        matrix.SetRow(2, new Vector4(0, 0, (far + near) / (far - near), -2*far*near/(far-near)));
-        matrix.SetRow(3, new Vector4(0, 0, 1, 0));
+        matrix.SetRow(2, new Vector4(0, 0, -(far + near) / (far - near), -2 * far * near / (far - near)));
+        matrix.SetRow(3, new Vector4(0, 0, -1, 0));
 
         return matrix;
     }
@@ -143,20 +157,21 @@ public class TransformationMatrixUtil {
     /// </summary>
     /// <param name="p"></param>
     /// <returns></returns>
-    Vector4 PToNDCPosition(Vector4 p)
+    public static Vector4 PToNDCPosition(Vector4 p)
     {
         return p / p.w;
     }
     /// <summary>
     /// NDC - Texture Space
+    /// (NDC - Viewport Space 视口空间,z的值这里和视口空间不一样，z的范围是[-1,1],视口坐标的z值是实际的z值)
     /// 这个过程是将[-1, 1]映射到[0, 1]之间。
     /// NDC to Texture space
     /// </summary>
     /// <param name="p"></param>
     /// <returns></returns>
-    Vector4 NDCToTexturePosition(Vector4 ndcPoint)
+    public static Vector4 NDCToTexturePosition(Vector4 ndcPoint)
     {
-        return (ndcPoint + Vector4.one) / 2;
+        return new Vector4((ndcPoint.x + 1) / 2, (ndcPoint.y + 1) / 2, ndcPoint.z, ndcPoint.w);
     }
 
     /// <summary>
@@ -166,9 +181,9 @@ public class TransformationMatrixUtil {
     /// </summary>
     /// <param name="p"></param>
     /// <returns></returns>
-    Vector4 TextureToScreenPosition(Vector4 texturePoint)
+    public static Vector4 TextureToScreenPosition(Vector4 texturePoint)
     {
-        Vector4 screenPos = new Vector4(texturePoint.x * Screen.width, texturePoint.y * Screen.height, 0, 0);
+        Vector4 screenPos = new Vector4(texturePoint.x * Screen.width, texturePoint.y * Screen.height, texturePoint.z, texturePoint.w);
         return screenPos;
     }
 

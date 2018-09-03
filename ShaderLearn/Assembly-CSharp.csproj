@@ -55,9 +55,13 @@
      <Compile Include="Assets\Matrix\Scripts\PositionTransformation.cs" />
      <Compile Include="Assets\Matrix\Scripts\RotationTransformation.cs" />
      <Compile Include="Assets\Matrix\Scripts\ScaleTransformation.cs" />
+     <Compile Include="Assets\Matrix\Scripts\test.cs" />
+     <Compile Include="Assets\Matrix\Scripts\TestCheckMatrix.cs" />
      <Compile Include="Assets\Matrix\Scripts\Transformation.cs" />
      <Compile Include="Assets\Matrix\Scripts\TransformationGrid.cs" />
+     <Compile Include="Assets\Matrix\Scripts\TransformationMatrixUtil.cs" />
      <Compile Include="Assets\Scripts\TangentSpaceVisualizer.cs" />
+     <None Include="Assets\Shaders\My Shadows.cginc" />
      <None Include="Assets\Shaders\ShaderLearn3_2.shader" />
      <None Include="Assets\part_4\Shaders\CustomLighting.cginc" />
      <None Include="Assets\RenderLearn\MyShader4_2.shader" />

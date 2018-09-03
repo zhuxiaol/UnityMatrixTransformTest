@@ -8,9 +8,11 @@ public class test : MonoBehaviour {
     //public Vector3 rotation;
     //public Vector3 translate;
     public Vector3 pos;
-
+    
 	// Use this for initialization
-	void Start () {
+
+
+	void Start1 () {
         MeshFilter mf= GetComponent<MeshFilter>();
         Mesh mesh = mf.mesh;
         foreach (var item in mesh.vertices)
