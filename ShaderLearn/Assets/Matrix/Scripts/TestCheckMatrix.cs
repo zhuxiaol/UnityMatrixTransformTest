@@ -83,7 +83,7 @@ public class TestCheckMatrix : MonoBehaviour {
 
         Debug.Log(viewportPos.z);
         Debug.Log(viewportPos.w);
-        Debug.LogFormat("screenPos:{0},viewportPos:{1},clipPos:{2},viewPos:{3}", screenPos, viewportPos, clipPos, viewPos);
+        Debug.LogFormat("screenPos:{0},viewportPos:{1},ndcPos:{4},clipPos:{2},viewPos:{3}", screenPos, viewportPos, clipPos, viewPos,ndcPos);
         Debug.Log( cam.WorldToViewportPoint(trans1.position));
         Debug.Log( cam.WorldToScreenPoint(trans1.position));
     }

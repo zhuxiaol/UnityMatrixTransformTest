@@ -171,7 +171,8 @@ public class TransformationMatrixUtil {
     /// <returns></returns>
     public static Vector4 NDCToTexturePosition(Vector4 ndcPoint)
     {
-        return new Vector4((ndcPoint.x + 1) / 2, (ndcPoint.y + 1) / 2, ndcPoint.z, ndcPoint.w);
+        //return new Vector4((ndcPoint.x + 1) / 2, (ndcPoint.y + 1) / 2, ndcPoint.z, ndcPoint.w);
+        return (ndcPoint + Vector4.one) / 2;
     }
 
     /// <summary>
