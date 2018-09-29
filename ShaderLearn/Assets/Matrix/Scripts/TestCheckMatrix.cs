@@ -22,7 +22,8 @@ public class TestCheckMatrix : MonoBehaviour {
         CheckFromModelSpaceToViewportSpace();
 
     }
-    Camera cam = Camera.main;
+    Camera cam;
+
     Matrix4x4 mat;
     /// <summary>
     /// 
