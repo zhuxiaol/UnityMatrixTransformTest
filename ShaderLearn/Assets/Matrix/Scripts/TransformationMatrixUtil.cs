@@ -1,3 +1,12 @@
+//=====================================================
+// - FileName:      TransformationMatrixUtil.cs
+// - Created:       wangguoqing
+// - UserName:      2018/09/03 17:18:56
+// - Email:         wangguoqing@hehegames.cn
+// - Description:   
+// -  (C) Copyright 2008 - 2015, codingriver,Inc.
+// -  All Rights Reserved.
+//======================================================
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,12 +15,12 @@ public class TransformationMatrixUtil {
 
 	
     /// <summary>
-    /// 平移变换，缩放变换，旋转变换
+    /// 模型空间的坐标转世界空间坐标
     /// </summary>
-    /// <param name="scale"></param>
-    /// <param name="rotation"></param>
-    /// <param name="translate"></param>
-    /// <param name="currentPos"></param>
+    /// <param name="scale">世界空间对模型的缩放</param>
+    /// <param name="rotation">世界空间对模型的旋转</param>
+    /// <param name="translate">世界空间对模型的平移</param>
+    /// <param name="currentPos">模型空间的坐标</param>
     /// <returns></returns>
     public static Vector3 MToWPosition(Vector3 scale, Vector3 rotation, Vector3 translate, Vector3 currentPos)
     {
@@ -21,12 +30,12 @@ public class TransformationMatrixUtil {
     }
 
     /// <summary>
-    /// 
+    /// 世界空间的坐标转模型空间坐标
     /// </summary>
-    /// <param name="scale"></param>
-    /// <param name="rotation"></param>
-    /// <param name="translate"></param>
-    /// <param name="currentPos"></param>
+    /// <param name="scale">世界空间对模型的缩放</param>
+    /// <param name="rotation">世界空间对模型的旋转</param>
+    /// <param name="translate">世界空间对模型的平移</param>
+    /// <param name="currentPos">世界空间的坐标</param>
     /// <returns></returns>
     public static Vector3 WToMPosition(Vector3 scale, Vector3 rotation, Vector3 translate, Vector3 currentPos)
     {
@@ -38,9 +47,9 @@ public class TransformationMatrixUtil {
     /// <summary>
     /// 模型空间到世界空间的变换矩阵
     /// </summary>
-    /// <param name="scale"></param>
-    /// <param name="rotation"></param>
-    /// <param name="translate"></param>
+    /// <param name="scale">世界空间对模型空间的缩放</param>
+    /// <param name="rotation">世界空间对模型空间的旋转</param>
+    /// <param name="translate">世界空间对模型空间的平移</param>
     /// <returns></returns>
     public static Matrix4x4 MToWMatrix(Vector3 scale, Vector3 rotation, Vector3 translate)
     {
@@ -75,6 +84,9 @@ public class TransformationMatrixUtil {
         translateMatrix.SetRow(2, new Vector4(0, 0, 1, translate.z));
         translateMatrix.SetRow(3, new Vector4(0, 0, 0, 1));
 
+
+        //这里注意顺序，矩阵不满足左右交换的，
+        //unity中旋转的顺序是首先绕Z轴进行旋转，然后绕X轴进行旋转，最后绕Y轴进行旋转
         Matrix4x4 convertMatrix = translateMatrix * rotateMatrixY * rotateMatrixX * rotateMatrixZ * scaleMatrix;
         return convertMatrix;
     }
@@ -82,6 +94,7 @@ public class TransformationMatrixUtil {
 
     /// <summary>
     /// 世界空间 转到 观察空间
+    /// 观察空间是右手坐标系
     /// </summary>
     /// <param name="worldPos"></param>
     /// <returns></returns>
@@ -93,13 +106,19 @@ public class TransformationMatrixUtil {
         return viewPos;
     }
 
+    /// <summary>
+    /// 世界空间转观察空间的矩阵
+    /// 观察空间是右手坐标系
+    /// </summary>
+    /// <returns></returns>
     public static Matrix4x4 WToVMatrix()
     {
+        //先获取世界空间转模型空间的矩阵（变换矩阵可逆，取逆矩阵）
         Transform camTrans = Camera.main.transform;
         Matrix4x4 matrix = MToWMatrix(camTrans.localScale, camTrans.localEulerAngles, camTrans.position);
         Matrix4x4 inverseMatrix = matrix.inverse;
 
-        //观察空间是右手坐标系
+        //将矩阵改成右手坐标系的矩阵，即z取反
         inverseMatrix.SetRow(2, -inverseMatrix.GetRow(2));
         return inverseMatrix;
     }
@@ -117,6 +136,11 @@ public class TransformationMatrixUtil {
         Vector4 p = matrix*new Vector4( vPos.x,vPos.y,vPos.z,1);
         return p;
     }
+
+    /// <summary>
+    /// 观察空间到裁剪空间的变换矩阵
+    /// </summary>
+    /// <returns></returns>
     public static Matrix4x4 VToPMatrix()
     {
         Camera cam = Camera.main;
@@ -151,6 +175,21 @@ public class TransformationMatrixUtil {
 
         return matrix;
     }
+
+    /// <summary>
+    /// 裁剪空间到屏幕空间的坐标变换（x,y是有效的）
+    /// </summary>
+    /// <param name="p"></param>
+    /// <returns></returns>
+    public static Vector4 PToScreenPosition(Vector4 p)
+    {
+        Vector4 ndcPos= PToNDCPosition(p);
+        Vector4 texPos = NDCToTexturePosition(ndcPos);
+        Vector4 screenPos = TextureToScreenPosition(texPos);
+        return screenPos;
+    }
+
+
     /// <summary>
     /// NDC是一个归一化的空间，坐标空间范围为[-1, 1]。从Projection空间到NDC空间的做法就是做了一个齐次除法！
     /// Projection to NDC
@@ -171,7 +210,6 @@ public class TransformationMatrixUtil {
     /// <returns></returns>
     public static Vector4 NDCToTexturePosition(Vector4 ndcPoint)
     {
-        //return new Vector4((ndcPoint.x + 1) / 2, (ndcPoint.y + 1) / 2, ndcPoint.z, ndcPoint.w);
         return (ndcPoint + Vector4.one) / 2;
     }
 
