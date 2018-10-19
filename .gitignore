@@ -2,3 +2,8 @@ Test_TextMeshPro/Library/
 Test_TextMeshPro/Temp/
 ShaderLearn/Library/
 ShaderLearn/Temp/
+AStarTest/Assembly-CSharp.csproj
+AStarTest/Assembly-CSharp-Editor.csproj
+AStarTest/AStarTest.sln
+AStarTest/Library/
+AStarTest/obj/
