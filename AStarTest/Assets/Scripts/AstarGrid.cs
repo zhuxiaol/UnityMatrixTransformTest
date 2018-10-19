@@ -31,7 +31,7 @@ public class Cell
 
     // 父节点
     public Cell parent=null;
-    GameObject obj;
+    public GameObject obj;
 
     public Cell(int x,int y,bool isWall,GameObject obj)
     {
