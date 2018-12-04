@@ -7,3 +7,6 @@ AStarTest/Assembly-CSharp-Editor.csproj
 AStarTest/AStarTest.sln
 AStarTest/Library/
 AStarTest/obj/
+MatrixTest/Library/
+ShaderLearn/.vs/
+ShaderLearn/obj/

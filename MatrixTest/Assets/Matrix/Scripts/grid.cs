@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class test : MonoBehaviour {
+public class grid : MonoBehaviour {
 
     //public Vector3 scale=Vector3.one;
     //public Vector3 rotation;
