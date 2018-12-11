@@ -13,21 +13,27 @@ using UnityEngine.Sprites;
 [AddComponentMenu("UI/MirrorImage", 20)]
 public class MirrorImage : Image
 {
+    /// <summary>
+    /// 镜像类型
+    /// </summary>
     public enum MirrorType
     {
         /// <summary>
         /// 水平
+        /// 提供左侧一半素材
         /// </summary>
         Horizontal,
 
         /// <summary>
         /// 垂直
+        /// 提供下侧一半素材
         /// </summary>
         Vertical,
 
         /// <summary>
         /// 四分之一
         /// 相当于水平，然后再垂直
+        /// 提供左下侧素材
         /// </summary>
         Quarter
     }
