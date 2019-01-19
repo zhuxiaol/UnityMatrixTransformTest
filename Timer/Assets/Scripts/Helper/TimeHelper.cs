@@ -1,7 +1,11 @@
-﻿using System;
+﻿//=====================================================
+// - FileName:      TimeHelper.cs
+// - Created:       codingriver
+//======================================================
 
-namespace ETModel
-{
+using System;
+
+
 	public static class TimeHelper
 	{
 		private static readonly long epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).Ticks;
@@ -28,4 +32,3 @@ namespace ETModel
 			return ClientNow();
 		}
     }
-}

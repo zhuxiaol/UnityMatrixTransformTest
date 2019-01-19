@@ -22,3 +22,6 @@ MatrixTest/obj/
 Timer/.vs/
 Timer/Library/
 Timer/obj/
+Timer/Assets/Plugins.meta
+Timer/Assets/Plugins/Editor.meta
+Timer/Assets/Plugins/Editor/JetBrains.meta

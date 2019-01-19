@@ -1,5 +1,8 @@
-﻿namespace ETModel
-{
+﻿//=====================================================
+// - FileName:      IdGenerater.cs
+// - Created:       codingriver
+//======================================================
+
 	public static class IdGenerater
 	{
 		public static long AppId { private get; set; }
@@ -18,4 +21,3 @@
 			return (int)(id >> 48);
 		}
 	}
-}

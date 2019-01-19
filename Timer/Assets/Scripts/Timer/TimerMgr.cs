@@ -3,12 +3,11 @@
 // - Created:       codingriver
 //======================================================
 
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace ETModel
-{
 
 	public class TimerMgr:Singleton<TimerMgr>
 	{
@@ -91,7 +90,7 @@ namespace ETModel
 			this.timers.Remove(id);
 		}
 
-		public Task WaitTillAsync(long tillTime, CancellationToken cancellationToken)
+		public Task WaitTillAsync(long tillTime,  out Action cancelAction)
 		{
 			TaskCompletionSource<bool> tcs = new TaskCompletionSource<bool>();
 			Timer timer = new Timer { Id = IdGenerater.GenerateId(), Time = tillTime, tcs = tcs };
@@ -101,7 +100,7 @@ namespace ETModel
 			{
 				this.minTime = timer.Time;
 			}
-			cancellationToken.Register(() => { this.Remove(timer.Id); });
+			cancelAction =() => { this.Remove(timer.Id); };
 			return tcs.Task;
 		}
 
@@ -118,7 +117,7 @@ namespace ETModel
 			return tcs.Task;
 		}
 
-		public Task WaitAsync(long time, CancellationToken cancellationToken)
+		public Task WaitAsync(long time, out Action cancelAction)
 		{
 			TaskCompletionSource<bool> tcs = new TaskCompletionSource<bool>();
 			Timer timer = new Timer { Id = IdGenerater.GenerateId(), Time = TimeHelper.Now() + time, tcs = tcs };
@@ -128,7 +127,7 @@ namespace ETModel
 			{
 				this.minTime = timer.Time;
 			}
-			cancellationToken.Register(() => { this.Remove(timer.Id); });
+			cancelAction =() => { this.Remove(timer.Id); };
 			return tcs.Task;
 		}
 
@@ -145,4 +144,3 @@ namespace ETModel
 			return tcs.Task;
 		}
 	}
-}

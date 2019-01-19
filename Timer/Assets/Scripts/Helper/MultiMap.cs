@@ -1,8 +1,11 @@
-﻿using System.Collections.Generic;
+﻿//=====================================================
+// - FileName:      MultiMap.cs
+// - Created:       codingriver
+//======================================================
+
+using System.Collections.Generic;
 using System.Linq;
 
-namespace ETModel
-{
 	public class MultiMap<T, K>
 	{
 		private readonly SortedDictionary<T, List<K>> dictionary = new SortedDictionary<T, List<K>>();
@@ -161,4 +164,3 @@ namespace ETModel
 			dictionary.Clear();
 		}
 	}
-}

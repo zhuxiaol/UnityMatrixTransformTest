@@ -9,8 +9,7 @@
 using System;
 using UnityEngine;
 
-namespace ETModel
-{
+
     /// <summary>
     /// 单例
     /// </summary>
@@ -58,4 +57,4 @@ namespace ETModel
 
 
     }
-}
+
