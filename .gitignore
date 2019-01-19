@@ -19,3 +19,6 @@ MirrorImage/Assembly-CSharp.csproj
 MirrorImage/Assembly-CSharp-Editor.csproj
 MatrixTest/.vs/
 MatrixTest/obj/
+Timer/.vs/
+Timer/Library/
+Timer/obj/
